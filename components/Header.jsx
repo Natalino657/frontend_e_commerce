@@ -47,7 +47,7 @@ const Header = () => {
 
   return (
     <View style={styles.headerContainer}>
-      <View Style={styles.topRow}>
+      <View style={styles.topRow}>
         <Image
           source={require("../assets/images/logo.png")}
           style={styles.logo}
@@ -100,7 +100,7 @@ const Header = () => {
         </View>
       )}
       <View style={styles.bottomRow}>
-        <Text style={styles.welcomeText}></Text>
+        <Text style={styles.welcomeText}>Welcome!!</Text>
       </View>
     </View>
   );
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
   topRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "cneter",
+    alignItems: "center",
     marginBottom: 10,
   },
 
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
   },
   searchContainer: {
     flex: 1,
-    flexDirections: "row",
+    flexDirection: "row",
     alignItems: "center",
     backgroundColor: Colors.white,
     borderRadius: 20,
@@ -182,8 +182,9 @@ const styles = StyleSheet.create({
   },
 
   cartIconContainer: {
-    position: "relative",
+    //position: "relative",
   },
+
   cartBadge: {
     position: "absolute",
     top: -5,
