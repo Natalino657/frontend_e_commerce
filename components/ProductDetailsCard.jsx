@@ -14,7 +14,7 @@ const ProductDetailsCard = ({ product, qty, setQty }) => {
       <Text style={styles.productName}>{product.name}</Text>
 
       <View style={styles.ratingPriceRow}>
-        <Text style={styles.priceValue}>${product.price}</Text>
+        <Text style={styles.priceValue}>{product.price}€</Text>
         <Rating value={product.rating} text={`${product.numReviews}`} />
       </View>
 

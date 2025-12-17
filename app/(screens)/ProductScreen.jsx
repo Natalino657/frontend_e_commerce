@@ -26,7 +26,7 @@ const ProductScreen = () => {
 
   const { productId } = route.params;
 
-  const { qty, setQty } = useState(1);
+  const [qty, setQty] = useState(1);
 
   useEffect(
     () => {

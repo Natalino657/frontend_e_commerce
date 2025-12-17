@@ -46,7 +46,7 @@ const Product = ({ product }) => {
           </Text>
 
           <View style={styles.pricing}>
-            <Text style={styles.currentPrice}>${product.price}</Text>
+            <Text style={styles.currentPrice}>{product.price}€</Text>
             <View
               style={[
                 styles.availability,
