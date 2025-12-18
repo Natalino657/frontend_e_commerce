@@ -17,6 +17,10 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     setCartfromStorage: (state, action) => {
+      return action.payload;
+    },
+
+    addToCart: (state, action) => {
       const { user, rating, numReviews, reviews, ...item } = action.payload;
 
       const existItem = state.cartItems.find((x) => x._id === item._id);
@@ -31,5 +35,42 @@ const cartSlice = createSlice({
 
       return updateCart(state);
     },
+
+    removeFromCart: (state, action) => {
+      state.cartItems = state.cartItems.filter((x) => x._id !== action.payload);
+      return updateCart(state);
+    },
+
+    saveShippingAddress: (state, action) => {
+      state.shippingAddress = action.payload;
+      AsyncStorage.setItem("cart", JSON.stringify(state));
+    },
+
+    savePaymentMethod: (state, action) => {
+      state.paymentMethod = action.payload;
+    },
+
+    clearCartItems: (state) => {
+      state.cartItems = [];
+      AsyncStorage.setItem("cart", JSON.stringify(state));
+    },
+
+    restCart: (state) => {
+      const newState = initialState;
+      AsyncStorage.removeItem("cart");
+      return newState;
+    },
   },
 });
+
+export const {
+  setCartfromStorage,
+  addToCart,
+  removeFrontCart,
+  savePaymentMethod,
+  saveShippingAddress,
+  clearCartItems,
+  restCart,
+} = cartSlice.actions;
+
+export default cartSlice.reducer;
