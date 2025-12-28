@@ -60,6 +60,7 @@ const Cart = () => {
         </TouchableOpacity>
         <Text style={styles.itemPrice}>{item.price}€</Text>
       </View>
+
       <View style={styles.itemActions}>
         <Picker
           selectedValue={item.qty}
@@ -159,7 +160,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
-  backLin: {
+  backLink: {
     color: Colors.primary,
     textDecorationLine: "underline",
     fontWeight: "black",
@@ -220,7 +221,7 @@ const styles = StyleSheet.create({
   },
 
   qtyPicker: {
-    height: 40,
+    height: 50,
     width: 80,
     color: Colors.textColor,
   },
