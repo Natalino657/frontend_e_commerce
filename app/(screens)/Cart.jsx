@@ -229,4 +229,67 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     padding: 10,
   },
+
+  summary: {
+    backgroundColor: Colors.white,
+    padding: 20,
+    borderRadius: 10,
+    borderColor: Colors.lightGray,
+    borderWidth: 1,
+    marginTop: 10,
+    ShadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 2,
+  },
+  summaryTitle: {
+    fontSize: 20,
+    fontWeight: 20,
+    fontWeight: "bold",
+    color: Colors.darkGray,
+    textAlign: "center",
+    marginBottom: 15,
+  },
+  summaryRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 10,
+  },
+
+  label: {
+    fontSize: 16,
+    color: Colors.secondaryTextColor,
+  },
+
+  value: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: Colors.darkGray,
+  },
+
+  total: {
+    fontSize: 15,
+    fontWeight: "bold",
+    color: Colors.textColor,
+  },
+
+  checkoutButton: {
+    backgroundColor: Colors.primary,
+    borderRadius: 8,
+    paddingVertical: 15,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 15,
+  },
+
+  checkoutText: {
+    color: Colors.white,
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+
+  checkoutDisabled: {
+    backgroundColor: Colors.darkGray,
+  },
 });
