@@ -88,7 +88,7 @@ const Cart = () => {
         <Text style={styles.header}>Shopping Cart</Text>
         {cartItems.length === 0 ? (
           <Message variant="info" style={styles.empyMessage}>
-            Your Cart is empty
+            Your Cart is empty {""}
             <Text style={styles.backLink} onPress={() => router.back()}>
               Go Back
             </Text>
