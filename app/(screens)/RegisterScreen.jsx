@@ -4,33 +4,37 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   Keyboard,
   Image,
   ActivityIndicator,
-  TouchableWithoutFeedback,
 } from "react-native";
-import React, { useState, useEffect, use } from "react";
 
+import React, { useState, useEffect, use } from "react";
 import { Link, useRouter, useLocalSearchParams } from "expo-router";
 
 import { useSelector, useDispatch } from "react-redux";
-import { useLoginMutation } from "../../Slices/userApiSlice";
+
+import { useRegisterMutation } from "../../Slices/userApiSlice";
 import { setCredentials } from "../../Slices/authSlice";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import Toast from "react-native-toast-message";
 import FormContainer from "../../components/FormContainer";
 import { Colors } from "../../constants/Utils";
 
-const LoginScreen = () => {
+const RegisterScreen = () => {
+  const [name, setname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const [login, { isLoading }] = useLoginMutation();
-
+  const [register, { isLoading }] = useRegisterMutation();
   const { userInfo } = useSelector((state) => state.auth);
 
   const localSearchParams = useLocalSearchParams();
@@ -45,16 +49,27 @@ const LoginScreen = () => {
 
   const submitHandler = async () => {
     Keyboard.dismiss();
+
+    if (password !== confirmPassword) {
+      Toast.show({
+        type: "error",
+        text1: "error",
+        text2: "Password do not match!",
+        position: "top",
+        visibilityTime: 7000,
+      });
+      return;
+    }
+
     try {
-      const res = await login({ email, password }).unwrap();
+      const res = await register({ name, email, password }).unwrap();
 
       dispatch(setCredentials({ ...res }));
-
       router.replace(redirect);
     } catch (error) {
       Toast.show({
         type: "error",
-        text1: "Loagin Failed",
+        text1: "Registretion Failed",
         text2: error?.data?.message || error.error,
         position: "top",
         visibilityTime: 7000,
@@ -66,6 +81,10 @@ const LoginScreen = () => {
     setShowPassword(!showPassword);
   };
 
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <FormContainer>
@@ -74,28 +93,35 @@ const LoginScreen = () => {
             source={require("../../assets/images/logo.png")}
             style={styles.logo}
           />
-          <Text style={styles.slogan}>One Login. Endless Choices </Text>
+          <Text style={styles.slogan}>Unlock your world. Register now</Text>
         </View>
 
-        <Text style={styles.title}>Sign In</Text>
+        <Text style={styles.title}>Register</Text>
+
+        <View style={styles.formGroup}>
+          <Text style={styles.label}>Name:</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Enter Name"
+            value={name}
+            onChangeText={setname}
+          />
+        </View>
 
         <View style={styles.formGroup}>
           <Text style={styles.label}>Email Address:</Text>
           <TextInput
             style={styles.input}
-            placeholder="Enter Email"
             keyboardType="email-address"
             autoCapitalize="none"
+            placeholder="Enter email"
             value={email}
-            onChangeText={(text) => {
-              console.log(text);
-              setEmail(text);
-            }}
+            onChangeText={setEmail}
           />
         </View>
 
         <View style={styles.formGroup}>
-          <Text style={styles.label}>Password</Text>
+          <Text style={styles.label}>Password:</Text>
           <View style={styles.passwordInputContainer}>
             <TextInput
               style={styles.passwordInput}
@@ -121,6 +147,33 @@ const LoginScreen = () => {
           </View>
         </View>
 
+        <View style={styles.formGroup}>
+          <Text style={styles.label}>Confirm Password:</Text>
+          <View style={styles.passwordInputContainer}>
+            <TextInput
+              style={styles.passwordInput}
+              placeholder="Confirm Password"
+              secureTextEntry={!showConfirmPassword}
+              value={confirmPassword}
+              onChangeText={setConfirmPassword}
+            />
+            <TouchableOpacity
+              onPress={toggleConfirmPasswordVisibility}
+              style={styles.passwordToggle}
+            >
+              {showConfirmPassword ? (
+                <FontAwesome6
+                  name="eye-slash"
+                  size={20}
+                  color={Colors.primary}
+                />
+              ) : (
+                <FontAwesome6 name="eye" size={20} color={Colors.primary} />
+              )}
+            </TouchableOpacity>
+          </View>
+        </View>
+
         <TouchableOpacity
           style={[styles.button, isLoading && styles.buttonDisabled]}
           onPress={submitHandler}
@@ -129,21 +182,21 @@ const LoginScreen = () => {
           {isLoading ? (
             <ActivityIndicator color={Colors.white} />
           ) : (
-            <Text style={styles.buttonText}>Sing in</Text>
+            <Text style={styles.buttonText}>Register</Text>
           )}
         </TouchableOpacity>
 
         <View style={styles.registerContainer}>
           <Text style={styles.registerText}>
-            New User ?{" "}
+            Already have an account?{" "}
             <Link
               href={{
-                pathname: "/RegisterScreen",
+                pathname: "/LoginScreen",
                 params: redirect !== "/" ? { redirect } : {},
               }}
               style={styles.registerLink}
             >
-              Register
+              Login
             </Link>
           </Text>
         </View>
@@ -152,7 +205,7 @@ const LoginScreen = () => {
   );
 };
 
-export default LoginScreen;
+export default RegisterScreen;
 
 const styles = StyleSheet.create({
   logoContainer: {
@@ -233,6 +286,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     borderRadius: 8,
     alignItems: "center",
+    justifyContent: "center",
     marginTop: 16,
   },
 

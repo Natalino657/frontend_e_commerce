@@ -18,10 +18,18 @@ const profile = () => {
   const router = useRouter();
 
   const handleLoginPress = () => router.push("/LoginScreen");
+  const handleRegisterPress = () => router.push("/RegisterScreen");
+
   return (
     <SafeAreaView>
       <Text>profile</Text>
-      <Text onPress={handleLoginPress}>Login</Text>
+      <Text onPress={handleLoginPress} style={[{ padding: 20 }]}>
+        Login
+      </Text>
+
+      <Text onPress={handleRegisterPress} style={[{ padding: 20 }]}>
+        Register
+      </Text>
     </SafeAreaView>
   );
 };
