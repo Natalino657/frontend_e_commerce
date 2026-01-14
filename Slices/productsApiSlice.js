@@ -32,5 +32,8 @@ export const productsApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetProductsQuery, useGetProductsDetailsQuery } =
-  productsApiSlice;
+export const {
+  useGetProductsQuery,
+  useGetProductsDetailsQuery,
+  useCreateReviewMutation,
+} = productsApiSlice;

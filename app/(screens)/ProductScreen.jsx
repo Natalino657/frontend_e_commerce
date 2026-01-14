@@ -11,7 +11,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useState, useEffect } from "react";
 import Toast from "react-native-toast-message";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { useGetProductsDetailsQuery } from "../../Slices/productsApiSlice";
+import {
+  useGetProductsDetailsQuery,
+  useCreateReviewMutation,
+} from "../../Slices/productsApiSlice";
 import Message from "../../components/Message";
 import { Colors } from "../../constants/Utils";
 import { useSelector, useDispatch } from "react-redux";
@@ -20,6 +23,7 @@ import { router } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import ProductImageCard from "../../components/ProductImageCard";
 import ProductDetailsCard from "../../components/ProductDetailsCard";
+import ProductReviewSections from "../../components/ProductReviewSections";
 
 const ProductScreen = () => {
   const route = useRoute();
@@ -30,6 +34,12 @@ const ProductScreen = () => {
   const { productId } = route.params;
 
   const [qty, setQty] = useState(1);
+
+  const [isReviewModalOpen, setReviewModalOpen] = useState(false);
+  const [rating, setrating] = useState(0);
+  const [comment, setComment] = useState(0);
+
+  const { userInfo } = useSelector((state) => state.auth);
 
   useEffect(
     () => {
@@ -127,6 +137,12 @@ const ProductScreen = () => {
           setQty={setQty}
           handleAddToCart={handleAddToCart}
           disableAddToCart={disableAddToCart}
+        />
+
+        <ProductReviewSections
+          reviews={product.reviews}
+          userInfo={userInfo}
+          onAddReviewPress={() => setReviewModalOpen(true)}
         />
       </ScrollView>
     </SafeAreaView>

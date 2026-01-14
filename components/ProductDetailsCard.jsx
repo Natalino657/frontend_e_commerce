@@ -68,7 +68,7 @@ const ProductDetailsCard = ({
         <TouchableOpacity
           style={[
             styles.addToCartButton,
-            disableAddToCart && styles.desableAddToCart,
+            disableAddToCart && styles.disableAddToCart,
           ]}
           onPress={handleAddToCart}
           disabled={disableAddToCart}
