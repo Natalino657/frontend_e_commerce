@@ -175,10 +175,12 @@ const styles = StyleSheet.create({
   },
   picker: {
     height: 60,
+    width: 50,
   },
 
   pickerItem: {
     fontSize: 60,
+    width: "100%",
   },
 
   addToCartButton: {
@@ -189,7 +191,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 10,
     shadowColor: "#000",
-    shadowOffset: { width: 0, heigth: 3 },
+    shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.25,
     shadowRadius: 5,
     elevation: 2,

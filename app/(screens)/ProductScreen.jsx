@@ -24,6 +24,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import ProductImageCard from "../../components/ProductImageCard";
 import ProductDetailsCard from "../../components/ProductDetailsCard";
 import ProductReviewSections from "../../components/ProductReviewSections";
+import AddReviewModal from "../../components/AddReviewModal";
 
 const ProductScreen = () => {
   const route = useRoute();
@@ -34,12 +35,14 @@ const ProductScreen = () => {
   const { productId } = route.params;
 
   const [qty, setQty] = useState(1);
-
-  const [isReviewModalOpen, setReviewModalOpen] = useState(false);
-  const [rating, setrating] = useState(0);
-  const [comment, setComment] = useState(0);
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
 
   const { userInfo } = useSelector((state) => state.auth);
+
+  const [createReview, { isLoading: loadingProductReview }] =
+    useCreateReviewMutation();
 
   useEffect(
     () => {
@@ -119,6 +122,65 @@ const ProductScreen = () => {
     }
   };
 
+  const submitReviewHandler = async () => {
+    try {
+      if (!rating || rating === 0) {
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: "Please select a rating before submit",
+          position: "top",
+          visibilityTime: 7000,
+        });
+        return;
+      }
+
+      if (!comment.trim()) {
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: "Please write a comment before submit",
+          position: "top",
+          visibilityTime: 7000,
+        });
+        return;
+      }
+
+      await createReview({
+        productId,
+        rating,
+        comment,
+      }).unwrap();
+
+      refetch();
+      Toast.show({
+        type: "success",
+        text1: "success",
+        text2: "Review create successfully",
+        position: "top",
+        visibilityTime: 7000,
+      });
+
+      setRating(0);
+      setComment("");
+      setIsReviewModalOpen(false);
+    } catch (error) {
+      const errorMessage = error?.data?.message || error.error;
+
+      if (errorMessage.toLowerCase().includes("already reviewed")) {
+        setIsReviewModalOpen(false);
+      }
+
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: errorMessage,
+        position: "top",
+        visibilityTime: 7000,
+      });
+    }
+  };
+
   const disableAddToCart = product?.countInStock === 0;
 
   return (
@@ -142,9 +204,20 @@ const ProductScreen = () => {
         <ProductReviewSections
           reviews={product.reviews}
           userInfo={userInfo}
-          onAddReviewPress={() => setReviewModalOpen(true)}
+          onAddReviewPress={() => setIsReviewModalOpen(true)}
         />
       </ScrollView>
+
+      <AddReviewModal
+        isVisible={isReviewModalOpen}
+        onClose={() => setIsReviewModalOpen(false)}
+        rating={rating}
+        setRating={setRating}
+        comment={comment}
+        setComment={setComment}
+        onSubmit={submitReviewHandler}
+        isLoading={loadingProductReview}
+      />
     </SafeAreaView>
   );
 };

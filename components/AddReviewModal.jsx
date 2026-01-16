@@ -5,13 +5,13 @@ import {
   TouchableOpacity,
   Modal,
   TextInput,
-  ActiveIndicator,
 } from "react-native";
 import React from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Colors } from "../constants/Utils";
+import { ActivityIndicator } from "react-native";
 
-const AddReviewModal = (
+const AddReviewModal = ({
   isVisible,
   onClose,
   rating,
@@ -19,8 +19,8 @@ const AddReviewModal = (
   comment,
   setComment,
   onSubmit,
-  isLoading
-) => {
+  isLoading,
+}) => {
   const isSubmitDisabled =
     !rating || rating === 0 || !comment.trim() || isLoading;
 
@@ -39,7 +39,9 @@ const AddReviewModal = (
 
           <Text style={styles.modalTitle}>Add your review</Text>
 
-          {isLoading && <ActiveIndicator size="small" color={Colors.primary} />}
+          {isLoading && (
+            <ActivityIndicator size="small" color={Colors.primary} />
+          )}
 
           <View style={styles.formGroup}>
             <Text style={styles.formLabel}>Rating</Text>
@@ -67,7 +69,7 @@ const AddReviewModal = (
               multiline
               numberOfLines={4}
               value={comment}
-              onChange={setComment}
+              onChangeText={setComment}
               placeholder="leave you review on this product..."
               placeholderTextColor={Colors.darkGray}
             />
@@ -101,7 +103,7 @@ export default AddReviewModal;
 const styles = StyleSheet.create({
   modalOverlay: {
     flex: 1,
-    backgroundColor: "rgb(0,0,0,0.6)",
+    backgroundColor: "rgba(0,0,0,0.6)",
     justifyContent: "center",
     alignItems: "center",
   },

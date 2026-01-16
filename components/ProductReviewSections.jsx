@@ -19,7 +19,7 @@ const ProductReviewSections = ({ reviews, userInfo, onAddReviewPress }) => {
                 <Rating value={review.rating} />
               </View>
               <Text style={styles.reviewDate}>
-                {new Date(review.creatAt).toLocaleDateString()}
+                {new Date(review.createdAt).toLocaleDateString()}
               </Text>
               <Text style={styles.reviewComment}>{review.comment}</Text>
             </View>
@@ -69,13 +69,12 @@ const styles = StyleSheet.create({
     padding: 15,
     marginBottom: 10,
     borderWidth: 1,
-    borderWidth: Colors.lightGray,
+    color: Colors.lightGray,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 1,
     },
-
     shadowOpacity: 0.05,
     shadowRadius: 2,
     elevation: 2,
@@ -85,7 +84,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 8,
+    marginBottom: 5,
   },
   reviewName: {
     fontWeight: "bold",
@@ -103,7 +102,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingVertical: 12,
     alignItems: "center",
-    marginTop: "20",
+    marginTop: 20,
     alignSelf: "center",
     paddingHorizontal: 30,
     shadowColor: "#000",
