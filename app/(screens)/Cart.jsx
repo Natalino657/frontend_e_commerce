@@ -24,6 +24,8 @@ const Cart = () => {
 
   const totalItems = cartItems.reduce((acc, item) => acc + item.qty, 0);
 
+  const { userInfo } = useSelector((state) => state.auth);
+
   //const { userInfo } = useSelector((state) => state.auth);
 
   const totalPrice = cartItems
@@ -38,7 +40,18 @@ const Cart = () => {
     dispatch(removeFromCart(id));
   };
 
-  const handleCheckout = () => {};
+  const handleCheckout = () => {
+    if (userInfo) {
+      router.push("(screens)/ShippingScreen");
+    } else {
+      router.push({
+        pathname: "(screens)/LoginScreen",
+        params: {
+          redirect: "(screens)/ShippingScreen",
+        },
+      });
+    }
+  };
 
   const renderItem = ({ item }) => (
     <View style={styles.itemContainer}>
