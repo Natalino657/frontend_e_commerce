@@ -47,7 +47,7 @@ const ShippingScreen = () => {
     }
 
     dispach(saveShippingAddress({ address, city, postalCode, country }));
-    router.push("(screen)/PaymentScreen");
+    router.push("(screens)/PaymentScreen");
   };
 
   return (
