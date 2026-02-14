@@ -9,7 +9,7 @@ import {
   Keyboard,
   ScrollView,
 } from "react-native";
-import React, { use, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "expo-router";
@@ -22,12 +22,12 @@ const ShippingScreen = () => {
 
   const { shippingAddress } = cart;
 
-  const [address, setAddress] = useState(shippingAddress.address || "");
-  const [city, setCity] = useState(shippingAddress.city || "");
+  const [address, setAddress] = useState(shippingAddress?.address || "");
+  const [city, setCity] = useState(shippingAddress?.city || "");
   const [postalCode, setPostalCode] = useState(
-    shippingAddress.postalCode || ""
+    shippingAddress?.postalCode || "",
   );
-  const [country, setCountry] = useState(shippingAddress.country || "");
+  const [country, setCountry] = useState(shippingAddress?.country || "");
 
   const dispach = useDispatch();
   const router = useRouter();
@@ -46,9 +46,23 @@ const ShippingScreen = () => {
       return;
     }
 
+    //teste de envio
+    console.log("Enviando para Redux:", {
+      address,
+      city,
+      postalCode,
+      country,
+    });
+
     dispach(saveShippingAddress({ address, city, postalCode, country }));
     router.push("(screens)/PaymentScreen");
   };
+
+  //debug
+  useEffect(() => {
+    console.log("Estado atual:");
+    console.log({ address, city, postalCode, country });
+  }, [address, city, postalCode, country]);
 
   return (
     <SafeAreaView style={styles.safeArea}>

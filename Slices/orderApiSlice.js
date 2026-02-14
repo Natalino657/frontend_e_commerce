@@ -42,7 +42,7 @@ export const orderApiSlice = apiSlice.injectEndpoints({
       query: (paypalOrderId) => ({
         url: `${PAYPAL_API_URL / capture - order}`,
         method: "POST",
-        body: { orderID: paypalOrderId },
+        body: { orderId: paypalOrderId },
       }),
     }),
 
