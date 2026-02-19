@@ -23,33 +23,21 @@ const PaymentStatus = ({ order }) => {
         </Message>
       )}
 
-      <View
-        style={[
-          styles.statusBox,
-          order.isPaid && styles.successStatus
-        ]}
-      >
-        <Text style={styles.statusText}>
-          {order.isPaid
-            && `Successfully paid on ${new Date(order.paidAt).toLocaleString()}`
-            }
-        </Text>
+      <View style={styles.message}>
+        {order.isPaid && (
+          <Message variant="success">
+            Successfully paid on {new Date(order.paidAt).toLocaleString()}
+          </Message>
+        )}
       </View>
 
-      <View
-        style={[
-          styles.statusBox,
-          order.isDelivered && styles.successStatus,
-          styles.statusBoxMarginTop,
-        ]}
-      >
-        <Text style={styles.statusText}>
-          {order.isDelivered
-            && `Successfully delivered on ${new Date(
-                order.deliveredAt
-              ).toLocaleString()}`
-           }
-        </Text>
+      <View>
+        {order.isDelivered && (
+          <Message variant="success">
+            `Successfully delivered on $
+            {new Date(order.deliveredAt).toLocaleString()}`
+          </Message>
+        )}
       </View>
     </View>
   );
@@ -84,11 +72,11 @@ const styles = StyleSheet.create({
     color: Colors.primary,
   },
   message: {
+    marginTop: 16,
     marginBottom: 16,
-    
   },
   statusBox: {
-  padding:10,
+    padding: 10,
     borderRadius: 8,
     marginTop: 12,
     alignSelf: "flex-start",

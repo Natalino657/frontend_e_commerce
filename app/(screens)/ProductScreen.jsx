@@ -8,9 +8,13 @@ import {
   Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Toast from "react-native-toast-message";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import {
+  useNavigation,
+  useRoute,
+  useFocusEffect,
+} from "@react-navigation/native";
 import {
   useGetProductsDetailsQuery,
   useCreateReviewMutation,
@@ -60,7 +64,7 @@ const ProductScreen = () => {
       }
     },
     [productId],
-    [navigation]
+    [navigation],
   );
 
   const {
@@ -69,6 +73,12 @@ const ProductScreen = () => {
     refetch,
     error,
   } = useGetProductsDetailsQuery(productId);
+
+  useFocusEffect(
+    useCallback(() => {
+      refetch();
+    }, [refetch]),
+  );
 
   if (isLoading) {
     return (
@@ -110,7 +120,7 @@ const ProductScreen = () => {
   const handleAddToCart = () => {
     if (product) {
       dispatch(addToCart({ ...product, qty }));
-      navigation.navigate("(screens)/Cart");
+      navigation.push("(screens)/Cart");
     } else {
       Toast.show({
         type: "error",
@@ -181,7 +191,7 @@ const ProductScreen = () => {
     }
   };
 
-  const disableAddToCart = product?.countInStock === 0;
+  //const disableAddToCart = product?.countInStock === 0;
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -198,7 +208,7 @@ const ProductScreen = () => {
           qty={qty}
           setQty={setQty}
           handleAddToCart={handleAddToCart}
-          disableAddToCart={disableAddToCart}
+          disableAddToCart={product?.countInStock === 0}
         />
 
         <ProductReviewSections

@@ -7,6 +7,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { Colors } from "../constants/Utils";
+import { useRouter } from "expo-router";
 
 const OrderSummary = ({
   order,
@@ -21,6 +22,7 @@ const OrderSummary = ({
   onPayWithPayPal,
   onMarkAsDelivered,
 }) => {
+  const router = useRouter();
   return (
     <View style={styles.card}>
       <Text style={styles.cardTitle}>Order Summary</Text>
@@ -96,6 +98,10 @@ const OrderSummary = ({
           </TouchableOpacity>
         </View>
       )}
+
+      <TouchableOpacity style={styles.button} onPress={() => router.push("/")}>
+        <Text>Home Screen</Text>
+      </TouchableOpacity>
     </View>
   );
 };
