@@ -100,7 +100,7 @@ const OrderSummary = ({
       )}
 
       <TouchableOpacity style={styles.button} onPress={() => router.push("/")}>
-        <Text>Home Screen</Text>
+        <Text style={styles.buttonText}>Home Screen</Text>
       </TouchableOpacity>
     </View>
   );
