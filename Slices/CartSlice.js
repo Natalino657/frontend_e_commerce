@@ -55,7 +55,7 @@ const cartSlice = createSlice({
       AsyncStorage.setItem("cart", JSON.stringify(state));
     },
 
-    restCart: (state) => {
+    resetCart: (state) => {
       const newState = initialState;
       AsyncStorage.removeItem("cart");
       return newState;
@@ -70,7 +70,7 @@ export const {
   savePaymentMethod,
   saveShippingAddress,
   clearCartItems,
-  restCart,
+  resetCart,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

@@ -43,7 +43,7 @@ const orders = () => {
             <Text style={styles.messageText}>
               Please{" "}
               <Text style={styles.longinLink} onPress={handleLoginPress}>
-                Login{" "}
+                login{" "}
               </Text>
               to see your orders
             </Text>
@@ -143,6 +143,8 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     backgroundColor: Colors.offWhite,
+    paddingHorizontal: 20,
+    marginTop: 20,
   },
 
   messageContainer: {
@@ -171,6 +173,7 @@ const styles = StyleSheet.create({
   },
   longinLink: {
     color: Colors.primary,
+    fontWeight: "600",
     textDecorationLine: "underline",
   },
   tableHeader: {
