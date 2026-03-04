@@ -122,6 +122,7 @@ const profile = () => {
             icon="log-out-outline"
             title="Logout"
             onPress={logoutHandler}
+            isLast
           />
         </View>
       </ScrollView>
