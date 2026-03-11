@@ -43,20 +43,58 @@ const OrderListScreen = () => {
       <View style={styles.container}>
         <Text style={styles.title}>Orders</Text>
         <View style={styles.TableHeader}>
-          <Text style={[styles.headcell, { flex: 0.5 }]}>#</Text>
-          <Text style={[styles.headcell, { flex: 0.5 }]}>user</Text>
-          <Text style={[styles.headcell, { flex: 0.5 }]}>Paid</Text>
-          <Text style={[styles.headcell, { flex: 0.5 }]}>Delivered</Text>
-          <Text style={[styles.headcell, { flex: 0.5 }]}>View</Text>
+          <Text style={[styles.headercell, { flex: 0.5 }]}>#</Text>
+          <Text style={[styles.headercell, { flex: 1.5 }]}>user</Text>
+          <Text style={[styles.headercell, { flex: 1.5 }]}>Paid</Text>
+          <Text style={[styles.headercell, { flex: 1.5 }]}>Delivered</Text>
+          <Text style={[styles.headercell, { flex: 1 }]}>View</Text>
         </View>
 
-        <FlatList 
-        data={orders}
-        keyExtractor={(item)=>item._id}
-        contentContainerStyle={{paddingBottom:20}}
-        renderItem={({item:orders, index})=>{
-          
-        }}
+        <FlatList
+          data={orders}
+          keyExtractor={(item) => item._id}
+          contentContainerStyle={{ paddingBottom: 20 }}
+          renderItem={({ item: order, index }) => (
+            <View style={styles.tableRow}>
+              <Text style={[styles.cell, { flex: 0.5 }]}>{index + 1}</Text>
+              <Text style={[styles.cell, { flex: 1.5 }]} numberOfLine={1}>
+                {order.user && order.user.name}
+              </Text>
+
+              <View style={[styles.cell, { flex: 1.5 }]}>
+                {order.isPaid ? (
+                  <Text style={styles.statusTextSuccess}>
+                    {order.paidAt.substring(0, 10)}
+                  </Text>
+                ) : (
+                  <FontAwesome name="times" size={16} color={Colors.textRed} />
+                )}
+              </View>
+
+              <View style={[styles.cell, { flex: 1.5 }]}>
+                {order.isDelivered ? (
+                  <Text style={styles.statusTextSuccess}>
+                    {order.deliveredAt.substring(0, 10)}
+                  </Text>
+                ) : (
+                  <FontAwesome name="times" size={16} color={Colors.textRed} />
+                )}
+              </View>
+
+              <TouchableOpacity
+                style={[styles.cell, { flex: 0.5 }]}
+                onPress={() =>
+                  router.push({
+                    pathname: "(screens)/OrderScreen",
+                    params: { orderId: order._id },
+                  })
+                }
+              >
+                <FontAwesome name="eye" size={18} color={Colors.primary} />
+              </TouchableOpacity>
+            </View>
+          )}
+        />
       </View>
     </SafeAreaView>
   );
@@ -109,9 +147,9 @@ const styles = StyleSheet.create({
     marginTop: 6,
   },
 
-  headcell: {
+  headercell: {
     fontWeight: "bold",
-    fontSize: 14,
+    fontSize: 12,
     textAlign: "center",
     color: Colors.secondaryTextColor,
   },
@@ -128,8 +166,19 @@ const styles = StyleSheet.create({
       width: 0,
       height: 2,
     },
-
     elevation: 2,
     alignItems: "center",
+  },
+
+  cell: {
+    fontSize: 12,
+    textAlign: "center",
+    color: Colors.textColor,
+  },
+
+  statusTextSuccess: {
+    color: Colors.success,
+    fontWeight: "500",
+    fontsize: 12,
   },
 });
